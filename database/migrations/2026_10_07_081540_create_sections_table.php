@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('sections', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email');
+            $table->string('name')->unique();
             $table->text('description')->nullable();
             $table->unsignedInteger('display_order')->default(0);
             $table->enum('status',['active','inactive'])->default('active');

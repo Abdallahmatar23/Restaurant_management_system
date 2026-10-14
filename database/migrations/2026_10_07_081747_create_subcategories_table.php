@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
+            $table->foreignId('category_id')->constrained('categories')->restrictOnDelete();
             $table->unsignedInteger('display_order')->default(0);
             $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();

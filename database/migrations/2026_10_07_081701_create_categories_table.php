@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->foreignId('section_id')->constrained('sections')->cascadeOnDelete();
+            $table->foreignId('section_id')->constrained('sections')->restrictOnDelete();
             $table->unsignedInteger('display_order')->default(0);
             $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();

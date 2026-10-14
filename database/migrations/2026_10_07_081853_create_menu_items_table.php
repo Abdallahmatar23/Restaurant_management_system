@@ -19,7 +19,7 @@ return new class extends Migration
             $table->decimal('price', total:8, places:2);
             $table->enum('availability',['available','unavailable'])->default('available');
             $table->unsignedInteger('preparation_time')->comment('Minutes');
-            $table->foreignId('subcategory_id')->constrained('subcategories')->cascadeOnDelete();
+            $table->foreignId('subcategory_id')->constrained('subcategories')->restrictOnDelete();
             $table->timestamps();
         });
     }
