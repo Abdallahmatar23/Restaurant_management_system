@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerMenuController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MenuDisplayController;
 use App\Http\Controllers\MenuItemController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RestaurantTableController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Middleware\RoleMiddleware;
@@ -84,13 +86,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/categories/{category}/subcategories', [SubcategoryController::class, 'getByCategory'])
         ->name('subcategories.by-category');
     Route::resource('menu-items', MenuItemController::class);
-    // Route::get('/menu-items', [MenuItemController::class, 'index'])->name('menu-items.index');
-    // Route::get('menu-items/create', [MenuItemController::class, 'create'])->name('menu-items.create');
-    // Route::get('/menu-items/{menuItem}', [MenuItemController::class, 'show'])->name('menu-items.show');
-    // Route::post('/menu-items', [MenuItemController::class, 'store'])->name('menu-items.store');
-    // Route::get('menu-items/edit/{item}', [MenuItemController::class, 'edit'])->name('menu-items.edit');
-    // Route::put('/menu-items', [MenuItemController::class, 'update'])->name('menu-items.update');
-    // Route::delete('/menu-items', [MenuItemController::class, 'destroy'])->name('menu-items.destroy');
 });
 
 Route::middleware('auth')->get('/dash', [DashboardController::class, 'index'])->name('dashboard');
@@ -100,13 +95,22 @@ Route::middleware(['auth', 'role:admin,waiter,cashier'])->group(function () {
 });
 
 Route::middleware(['auth', 'role:waiter,admin'])->group(function () {
-    Route::resource('restaurant-tables',RestaurantTableController::class);
+    Route::resource('restaurant-tables', RestaurantTableController::class);
+    Route::patch('/restaurant-tables/qr/regenerate/{restaurantTable}', [RestaurantTableController::class, 'qrRegenerate'])->name('restaurant-tables.qr.regenerate');
+    Route::get('/restaurant-tables/to/qr-bulk/', function () {
+        return view('dashboard.admin.restaurant-tables.qr-bulk');
+    })->name('restaurant-tables.to.qr.bulk-generate');
+    Route::post('/restaurant-tables/qr/regenerateAll/', [RestaurantTableController::class, 'qrBulkGenerate'])->name('restaurant-tables.qr.bulk-generate');
+    Route::get('/menu/table/{token}', [RestaurantTableController::class, 'qrShow'])->name('restaurant-tables.qr.show');
+    Route::get('/qr/download/{restaurantTable},{flag}', [RestaurantTableController::class, 'qrDownload'])->name('restaurant-tables.qr.download');
     // Route::get('orders/create',[OrderController::class,'create'])->name('orders.create);
     // Route::post('orders/store',[OrderController::class,'store'])->name('order.store);
 });
 
 Route::middleware(['auth', 'role:cashier,admin'])->group(function () {});
-
 Route::middleware(['auth', 'role:kitchen_staff,admin'])->group(function () {});
 
+Route::middleware(['auth', 'role:client,admin'])->group(function () {});
+
+Route::get('/customer/menu/table/{token}', [CustomerMenuController::class, 'index'])->name('customer.menu');
 require __DIR__ . '/auth.php';

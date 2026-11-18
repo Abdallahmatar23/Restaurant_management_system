@@ -4,6 +4,7 @@ namespace App\Http\Requests\RestaurantTable;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreRestaurantTableRequest extends FormRequest
 {
@@ -23,7 +24,14 @@ class StoreRestaurantTableRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'table_number' => ['required','unique:restaurant_tables,table_number','alpha_dash'],
+            'type' => ['required' , Rule::in(['private','public'])],
+            'min_capacity' => ['required','integer','min:1'],
+            'max_capacity' => ['required','integer','gte:min_capacity'],
+            'area' => ['nullable','string',Rule::in(['ground floor','first floor','garden'])],
+            'status' => ['required',Rule::in(['available','occupied','reserved','maintenance'])],
+            'notes' => ['nullable','string'],
+            // 'unique_token' => ['unique:' . RestaurantTable::class],
         ];
     }
 }

@@ -15,10 +15,19 @@
         $selectedTags = old('tags', $item->tags ?? []);
     @endphp
 
-    {{-- {{ $sec }} --}}
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <div class="card card-primary card-outline">
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-header bg-body py-3">
+                    <h5 class="fw-bold mb-0">
+                        {{ $item->exists ? 'Edit Menu Item' : 'Create Menu Item' }}
+                    </h5>
+                    <small class="text-body-secondary">
+                        {{ $item->exists ? 'Update the menu item information' : 'Add a new item to your restaurant menu' }}
+                    </small>
+                </div>
+
                 <form method="POST" enctype="multipart/form-data"
                     action="{{ $item->exists ? route('menu-items.update', $item) : route('menu-items.store') }}">
                     @csrf
@@ -26,9 +35,10 @@
                         @method('PUT')
                     @endif
 
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label class="form-label">Name</label>
+                    <div class="card-body p-4">
+
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Name</label>
                             <input type="text" name="name" maxlength="200" value="{{ old('name', $item->name) }}"
                                 class="form-control @error('name') is-invalid @enderror" required>
                             @error('name')
@@ -37,37 +47,8 @@
                         </div>
 
                         <div class="row">
-                            {{-- <div class="col-md-4 mb-3">
-                                <label class="form-label">Section</label>
-                                <select id="section" name="section_id"
-                                    class="form-select @error('section_id') is-invalid @enderror" required>
-                                    <option value="">-- Select --</option>
-                                    @foreach ($sections as $s)
-                                        <option value="{{ $s->id }}" @selected($selectedSection == $s->id)>{{ $s->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('section_id')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label">Category</label>
-                                <select id="category" name="category_id"
-                                    class="form-select @error('category_id') is-invalid @enderror" required>
-                                    <option value="">-- Select section first --</option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}" @selected($selectedCategory == $category->id)>
-                                            {{ $category->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('category_id')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div> --}}
                             <div class="mb-3">
-                                <label class="form-label">Subcategory</label>
+                                <label class="form-label fw-semibold">Subcategory</label>
                                 <select id="subcategory" name="subcategory_id"
                                     class="form-select @error('subcategory_id') is-invalid @enderror" required>
                                     <option value="">-- Select category first --</option>
@@ -83,8 +64,11 @@
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Description <small class="text-muted">(max 500)</small></label>
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">
+                                Description
+                                <small class="text-body-secondary fw-normal">(max 500)</small>
+                            </label>
                             <textarea name="description" rows="3" maxlength="500"
                                 class="form-control @error('description') is-invalid @enderror">{{ old('description', $item->description) }}</textarea>
                             @error('description')
@@ -94,7 +78,7 @@
 
                         <div class="row">
                             <div class="col-md-4 mb-3">
-                                <label class="form-label">Price (EGP)</label>
+                                <label class="form-label fw-semibold">Price (EGP)</label>
                                 <input type="number" step="0.01" min="0" name="price"
                                     value="{{ old('price', $item->price) }}"
                                     class="form-control @error('price') is-invalid @enderror" required>
@@ -102,8 +86,9 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+
                             <div class="col-md-4 mb-3">
-                                <label class="form-label">Preparation Time (min)</label>
+                                <label class="form-label fw-semibold">Preparation Time (min)</label>
                                 <input type="number" min="0" name="preparation_time"
                                     value="{{ old('preparation_time', $item->preparation_time) }}"
                                     class="form-control @error('preparation_time') is-invalid @enderror">
@@ -111,35 +96,53 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+
                             <div class="col-md-4 mb-3">
-                                <label class="form-label">Availability</label>
+                                <label class="form-label fw-semibold">Availability</label>
                                 <select name="availability" class="form-select">
                                     <option value="available" @selected(old('availability', $item->availability ?? 'available') === 'available')>Available</option>
                                     <option value="unavailable" @selected(old('availability', $item->availability) === 'unavailable')>Out of stock</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="mb-3">
 
-                            @foreach ($tags as $tag)
-                                <label>
-                                    <input type="checkbox" name="tags[]" value="{{ $tag }}"
-                                        @checked(in_array($tag, old('tags', $item->tags ?? [])))>
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold d-block mb-2">Special Tags</label>
 
-                                    {{ $tag }}
-                                </label>
-                            @endforeach
+                            <div class="border rounded-3 p-3 bg-body-tertiary">
+                                <div class="d-flex flex-wrap gap-3">
+                                    @foreach ($tags as $tag)
+                                        <label class="form-check d-flex align-items-center gap-2 mb-0">
+                                            <input type="checkbox" name="tags[]" value="{{ $tag }}"
+                                                class="form-check-input mt-0"
+                                                @checked(in_array($tag, old('tags', $item->tags ?? [])))>
+
+                                            <span class="text-body">{{ $tag }}</span>
+                                        </label>
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Image <small class="text-muted">(JPG/PNG, max 2MB, recommended
-                                    800x600)</small></label>
+                            <label class="form-label fw-semibold">
+                                Image
+                                <small class="text-body-secondary fw-normal">
+                                    (JPG/PNG, max 2MB, recommended 800x600)
+                                </small>
+                            </label>
+
                             @if ($item->exists)
-                                <div class="mb-2"><img src="{{ asset($item->image) }}" alt="" style="height:80px"
-                                        class="rounded"></div>
+                                <div class="mb-3">
+                                    <img src="{{ asset($item->image) }}" alt=""
+                                        style="height:100px; max-width: 180px; object-fit: cover;"
+                                        class="rounded-3 border">
+                                </div>
                             @endif
+
                             <input type="file" name="image" accept="image/png,image/jpeg"
                                 class="form-control @error('image') is-invalid @enderror" @required(!$item->exists)>
+
                             @error('image')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -147,9 +150,15 @@
 
                     </div>
 
-                    <div class="card-footer">
-                        <button class="btn btn-primary">Save</button>
-                        <a href="{{ route('menu-items.index') }}" class="btn btn-secondary">Cancel</a>
+                    <div class="card-footer bg-body p-3 d-flex gap-2">
+                        <button class="btn btn-primary">
+                            <i class="bi bi-check-lg me-1"></i>
+                            Save
+                        </button>
+
+                        <a href="{{ route('menu-items.index') }}" class="btn btn-outline-secondary">
+                            Cancel
+                        </a>
                     </div>
                 </form>
             </div>

@@ -7,48 +7,32 @@
 
     <div class="card border-0 shadow-sm">
 
-        {{-- Header --}}
-        <div class="card-header bg-white py-3">
-
+        <div class="card-header bg-body py-3">
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-
                 <div>
                     <h5 class="fw-bold mb-1">Menu Items</h5>
-                    <small class="text-muted">Manage all restaurant menu items</small>
+                    <small class="text-body-secondary">Manage all restaurant menu items</small>
                 </div>
 
                 <a href="{{ route('menu-items.create') }}" class="btn btn-primary">
                     <i class="bi bi-plus-lg me-1"></i>
                     Add New Item
                 </a>
-
             </div>
 
-
             <form action="{{ route('menu-items.index') }}" method="GET">
-
                 <div class="row g-2">
 
                     <div class="col-lg-3 col-md-6">
-
-                        <label class="form-label small fw-semibold">
-                            Search
-                        </label>
-
-                        <input type="search" name="search" value="{{ request('search') }}" class="form-control"
-                            placeholder="Search by item name...">
-
+                        <label class="form-label small fw-semibold">Search</label>
+                        <input type="search" name="search" value="{{ request('search') }}"
+                            class="form-control" placeholder="Search by item name...">
                     </div>
 
                     <div class="col-lg-2 col-md-6">
-
-                        <label class="form-label small fw-semibold">
-                            Section
-                        </label>
-
+                        <label class="form-label small fw-semibold">Section</label>
                         <select name="section_id" id="sectionFilter" class="form-select"
                             data-url="{{ route('categories.by-section', ['section' => '__ID__']) }}">
-
                             <option value="">All Sections</option>
 
                             @foreach ($sections as $section)
@@ -56,20 +40,13 @@
                                     {{ $section->name }}
                                 </option>
                             @endforeach
-
                         </select>
-
                     </div>
 
                     <div class="col-lg-2 col-md-6">
-
-                        <label class="form-label small fw-semibold">
-                            Category
-                        </label>
-
+                        <label class="form-label small fw-semibold">Category</label>
                         <select name="category_id" id="categoryFilter" class="form-select"
                             data-url="{{ route('subcategories.by-category', ['category' => '__ID__']) }}">
-
                             <option value="">All Categories</option>
 
                             @foreach ($categories as $category)
@@ -77,19 +54,12 @@
                                     {{ $category->name }}
                                 </option>
                             @endforeach
-
                         </select>
-
                     </div>
 
                     <div class="col-lg-2 col-md-6">
-
-                        <label class="form-label small fw-semibold">
-                            Subcategory
-                        </label>
-
+                        <label class="form-label small fw-semibold">Subcategory</label>
                         <select name="subcategory_id" id="subcategoryFilter" class="form-select">
-
                             <option value="">All Subcategories</option>
 
                             @foreach ($subcategories as $subcategory)
@@ -97,20 +67,12 @@
                                     {{ $subcategory->name }}
                                 </option>
                             @endforeach
-
                         </select>
-
                     </div>
 
-
                     <div class="col-lg-2 col-md-6">
-
-                        <label class="form-label small fw-semibold">
-                            Availability
-                        </label>
-
+                        <label class="form-label small fw-semibold">Availability</label>
                         <select name="availability" class="form-select">
-
                             <option value="">All Availability</option>
 
                             <option value="available" @selected(request('availability') === 'available')>
@@ -120,44 +82,33 @@
                             <option value="unavailable" @selected(request('availability') === 'unavailable')>
                                 Unavailable
                             </option>
-
                         </select>
-
                     </div>
 
                     <div class="col-lg-1 col-md-6 d-flex align-items-end">
-
                         <button type="submit" class="btn btn-secondary w-100">
                             <i class="bi bi-funnel"></i>
                             Filter
                         </button>
-
                     </div>
 
                 </div>
 
-
                 <div class="mt-2">
-
-                    <a href="{{ route('menu-items.index') }}" class="text-decoration-none small text-muted">
+                    <a href="{{ route('menu-items.index') }}"
+                        class="text-decoration-none small text-body-secondary">
                         <i class="bi bi-arrow-counterclockwise me-1"></i>
                         Clear Filters
                     </a>
-
                 </div>
-
             </form>
-
         </div>
 
         <div class="card-body p-0">
-
             <div class="table-responsive">
-
                 <table class="table table-hover align-middle mb-0">
 
-                    <thead class="table-light">
-
+                    <thead class="table-secondary">
                         <tr>
                             <th class="ps-3">Image</th>
                             <th>Name</th>
@@ -169,32 +120,26 @@
                             <th>Special Tags</th>
                             <th class="text-center">Actions</th>
                         </tr>
-
                     </thead>
 
-
                     <tbody>
-
                         @forelse ($items as $item)
                             <tr>
-
-                                {{-- Image --}}
                                 <td class="ps-3">
-
                                     @if ($item->image)
-                                        <img src="{{ $item->image }}" alt="{{ $item->name }}" class="rounded"
+                                        <img src="{{ $item->image }}" alt="{{ $item->name }}"
+                                            class="rounded-2 border"
                                             style="width: 65px; height: 50px; object-fit: cover;">
                                     @else
-                                        <div class="bg-light rounded d-flex align-items-center justify-content-center"
+                                        <div class="bg-body-tertiary border rounded-2 d-flex align-items-center justify-content-center"
                                             style="width: 65px; height: 50px;">
-                                            <i class="bi bi-image text-muted"></i>
+                                            <i class="bi bi-image text-body-secondary"></i>
                                         </div>
                                     @endif
-
                                 </td>
 
                                 <td>
-                                    <span class="fw-semibold">
+                                    <span class="fw-semibold text-body">
                                         {{ $item->name }}
                                     </span>
                                 </td>
@@ -211,14 +156,11 @@
                                     {{ $item->subcategory->category->section->name ?? 'N/A' }}
                                 </td>
 
-
                                 <td class="fw-semibold text-nowrap">
                                     {{ number_format($item->price, 2) }} EGP
                                 </td>
 
-
                                 <td>
-
                                     @if ($item->availability === 'available')
                                         <span class="badge text-bg-success">
                                             Available
@@ -228,10 +170,9 @@
                                             Unavailable
                                         </span>
                                     @endif
-
                                 </td>
-                                <td>
 
+                                <td>
                                     @if ($item->tags)
                                         {{ '[' }}
                                         @foreach ($item->tags as $tag)
@@ -243,20 +184,19 @@
                                             Null
                                         </span>
                                     @endif
-
                                 </td>
 
                                 <td>
-
                                     <div class="d-flex justify-content-center gap-1">
-
-                                        <a href="{{ route('menu-items.show', $item) }}" class="btn btn-sm btn-outline-info"
+                                        <a href="{{ route('menu-items.show', $item) }}"
+                                            class="btn btn-sm btn-outline-info"
                                             title="View Item">
                                             <i class="bi bi-eye"></i>
                                         </a>
 
                                         <a href="{{ route('menu-items.edit', $item) }}"
-                                            class="btn btn-sm btn-outline-primary" title="Edit Item">
+                                            class="btn btn-sm btn-outline-primary"
+                                            title="Edit Item">
                                             <i class="bi bi-pencil"></i>
                                         </a>
 
@@ -270,53 +210,36 @@
                                                 title="Delete Item">
                                                 <i class="bi bi-trash"></i>
                                             </button>
-
                                         </form>
-
                                     </div>
-
                                 </td>
-
                             </tr>
 
                         @empty
-
                             <tr>
-
                                 <td colspan="8" class="text-center py-5">
+                                    <i class="bi bi-inbox fs-1 text-body-secondary"></i>
 
-                                    <i class="bi bi-inbox fs-1 text-muted"></i>
-
-                                    <p class="text-muted mt-2 mb-0">
+                                    <p class="text-body-secondary mt-2 mb-0">
                                         No menu items found.
                                     </p>
-
                                 </td>
-
                             </tr>
                         @endforelse
-
                     </tbody>
 
                 </table>
-
             </div>
-
         </div>
 
-
         @if ($items->hasPages())
-            <div class="card-footer bg-white">
-
+            <div class="card-footer bg-body">
                 {{ $items->withQueryString()->links('pagination::bootstrap-5') }}
-
             </div>
         @endif
 
     </div>
 
-
-    {{-- Cascading Dropdowns --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
@@ -324,8 +247,6 @@
             const categoryFilter = document.getElementById('categoryFilter');
             const subcategoryFilter = document.getElementById('subcategoryFilter');
 
-
-            // Load Categories when Section changes
             sectionFilter.addEventListener('change', function() {
 
                 const sectionId = this.value;
@@ -333,7 +254,6 @@
                 categoryFilter.innerHTML = '<option value="">All Categories</option>';
                 subcategoryFilter.innerHTML = '<option value="">All Subcategories</option>';
 
-                // If All Sections selected, reload all categories
                 if (!sectionId) {
                     this.form.submit();
                     return;
@@ -382,15 +302,12 @@
 
             });
 
-
-            // Load Subcategories when Category changes
             categoryFilter.addEventListener('change', function() {
 
                 const categoryId = this.value;
 
                 subcategoryFilter.innerHTML = '<option value="">All Subcategories</option>';
 
-                // If All Categories selected, reload subcategories for selected section
                 if (!categoryId) {
                     this.form.submit();
                     return;

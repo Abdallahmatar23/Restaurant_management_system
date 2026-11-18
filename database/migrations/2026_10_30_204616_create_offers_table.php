@@ -22,8 +22,8 @@ return new class extends Migration
             $table->time('start_time');
             $table->time('end_time');
             $table->json('applicable_days')->nullable();
-            $table->boolean('status')->default('true');
-            $table->boolean('display_on_menu')->default('false');
+            $table->boolean('status')->default(true);
+            $table->boolean('display_on_menu')->default(false);
             $table->timestamps();
         });
     }

@@ -7,7 +7,7 @@
         ['Kitchen View', 'bi-fire', 'kitchen.index', ['admin', 'kitchen_staff']],
         ['Orders', 'bi-receipt', 'orders.index', ['admin', 'waiter', 'cashier']],
         ['Reservations', 'bi-calendar-check', 'reservations.index', ['admin', 'waiter']],
-        ['Tables', 'bi-grid-3x3-gap', 'tables.index', ['admin', 'waiter']],
+        ['Tables', 'bi-grid-3x3-gap', 'restaurant-tables.index', ['admin', 'waiter']],
         ['Billing', 'bi-cash-coin', 'billing.index', ['admin', 'cashier']],
         // ['Menu', 'bi-journal-text', 'sections.index', ['admin']],
         ['Offers', 'bi-tags', 'offers.index', ['admin']],
